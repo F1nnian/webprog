@@ -1,16 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function Navigation() {
+function Navigation({ isLoggedIn, onLogout }) {
   return (
     <nav>
-      <Link to="/">Home</Link>
-      <Link to="/pets">Pets</Link>
-      <Link to="/addpet">List Pet for Adoption</Link>
-      <Link to="/about">About</Link>
-      <Link to="/contact">Contact</Link>
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/pets">Pets</Link>
+        </li>
+        <li>
+          <Link to="/addpet">Add Pet</Link>
+        </li>
+        <li>
+          {isLoggedIn ? (
+            <button onClick={onLogout}>Logout</button>
+          ) : (
+            <Link to="/login">Login</Link>
+          )}
+        </li>
+      </ul>
     </nav>
   );
 }
 
 export default Navigation;
+

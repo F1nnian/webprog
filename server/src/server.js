@@ -24,3 +24,5 @@ app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
 
 const petRoutes = require('./routes/petRoutes');
 app.use('/api', petRoutes);
+const userRoutes = require('./routes/userRoutes');
+app.use('/api', userRoutes);

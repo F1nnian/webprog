@@ -49,12 +49,10 @@ async function createPet(req, res) {
       if (err instanceof multer.MulterError) {
         return res.status(400).json({ message: err.message });
       } else if (err) {
-        console.log(err)
         return res.status(500).json({ message: 'Internal server error' });
       }
       
       const image = req.file.filename;
-      console.log(image);
       const { name, species, age } = req.body;
 
             const newPet = new Pet({
