@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 function NewestPetList() {
   const [newestPets, setNewestPets] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/pets?sortBy=date&limit=10')
+    fetch('http://localhost:5000/api/pets?sortBy=createdAt&limit=10')
       .then(response => response.json())
       .then(data => setNewestPets(data))
       .catch(error => console.error('Error fetching newest pets:', error));
@@ -16,11 +17,13 @@ function NewestPetList() {
       <ul>
         {newestPets.map(pet => (
           <li key={pet._id}>
-            <img src={"http://localhost:5000/images/"+pet.image} alt={pet.name} style={{ width: '100px', height: '100px' }} />
-            <div>
-              <h3>{pet.name}</h3>
-              <p>Age: {pet.age}</p>
-            </div>
+            <Link to={`/pets/${pet._id}`}>
+              <img src={"http://localhost:5000/images/"+pet.image} alt={pet.name} style={{ width: '100px', height: '100px' }} />
+              <div>
+                <h3>{pet.name}</h3>
+                <p>Age: {pet.age}</p>
+              </div>
+            </Link>
           </li>
         ))}
       </ul>

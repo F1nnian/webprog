@@ -1,5 +1,6 @@
 const multer = require('multer');
 const Pet = require('../models/petModel');
+const jwt = require('jsonwebtoken');
 
 async function getAllPets(req, res) {
   try {
@@ -16,9 +17,23 @@ async function getAllPets(req, res) {
   }
 }
 
+async function getMyPets(req, res) {
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+    console.log("test");
+    const decodedToken = jwt.verify(token, 'testtest123');
+    const userId = decodedToken.userId;
+
+    const pets = await Pet.find({ createdBy: userId }).select('name species age image');
+    res.json(pets);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
 async function getPetById(req, res) {
   try {
-    const pet = await Pet.findById(req.params.id);
+    const pet = await Pet.findById(req.params.id).populate('createdBy', 'firstName lastName email');
     if (!pet) {
       return res.status(404).json({ message: 'Pet not found' });
     }
@@ -45,6 +60,10 @@ const uploadSingle = upload.single('image');
 
 async function createPet(req, res) {
   try {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'testtest123');
+    const userId = decodedToken.userId;
+
     uploadSingle(req, res, async function (err) {
       if (err instanceof multer.MulterError) {
         return res.status(400).json({ message: err.message });
@@ -59,7 +78,8 @@ async function createPet(req, res) {
                 name,
                 species,
                 age,
-                image
+                image,
+                createdBy: userId
             });
 
             const savedPet = await newPet.save();
@@ -71,8 +91,94 @@ async function createPet(req, res) {
     }
 }
 
+async function editPet(req, res) {
+  try {
+    const pet = await Pet.findById(req.params.id);
+    if (!pet) {
+      return res.status(404).json({ message: 'Pet not found' });
+    }
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'testtest123');
+    const userId = decodedToken.userId;
+
+    console.log(pet.createdBy.toString());
+
+    if (pet.createdBy.toString() !== userId) {
+      return res.status(403).json({ message: 'Access forbidden' });
+    }
+    console.log(pet);
+    res.json(pet);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
+async function updatePet(req, res) {
+  console.log("test");
+  try {
+    console.log(req.body);
+    const pet = await Pet.findById(req.params.id);
+    if (!pet) {
+      return res.status(404).json({ message: 'Pet not found' });
+    }
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'testtest123');
+    const userId = decodedToken.userId;
+
+    if (pet.createdBy.toString() !== userId) {
+      return res.status(403).json({ message: 'Access forbidden' });
+    }
+
+    uploadSingle(req, res, async function (err) {
+      if (err instanceof multer.MulterError) {
+        return res.status(400).json({ message: err.message });
+      } else if (err) {
+        return res.status(500).json({ message: 'Internal server error' });
+      }
+
+      const { name, species, age } = req.body;
+      const image = req.file ? req.file.filename : pet.image;
+
+      pet.name = name;
+      pet.species = species;
+      pet.age = age;
+      pet.image = image;
+
+      const updatedPet = await pet.save();
+      res.json(updatedPet);
+    });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
+async function deletePet(req, res) {
+  try {
+    const pet = await Pet.findById(req.params.id);
+    if (!pet) {
+      return res.status(404).json({ message: 'Pet not found' });
+    }
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'testtest123');
+    const userId = decodedToken.userId;
+
+    if (pet.createdBy.toString() !== userId) {
+      return res.status(403).json({ message: 'Access forbidden' });
+    }
+
+    await pet.deleteOne();
+    res.json({ message: 'Pet deleted successfully' });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
 module.exports = {
   getAllPets,
+  getMyPets,
   getPetById,
-  createPet
+  createPet,
+  editPet,
+  updatePet,
+  deletePet
 };

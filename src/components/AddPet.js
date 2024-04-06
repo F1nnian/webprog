@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function AddPetForm({ onAdd }) {
   const [name, setName] = useState('');
@@ -49,11 +50,15 @@ function AddPetForm({ onAdd }) {
   );
 }
 
-function AddPet() {
+function AddPet({ isLoggedIn }) {
   const handleAddPet = async (formData) => {
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:5000/api/pets', {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
         body: formData,
       });
       if (response.ok) {
@@ -68,7 +73,7 @@ function AddPet() {
 
   return (
     <div>
-      <AddPetForm onAdd={handleAddPet} />
+      {(isLoggedIn) ? <AddPetForm onAdd={handleAddPet} /> : (<p>Please <Link to="/login">log in</Link> to add a pet</p>)}
     </div>
   );
 }

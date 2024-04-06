@@ -8,12 +8,15 @@ function PetList() {
     fetch('http://localhost:5000/api/pets')
       .then(response => response.json())
       .then(data => setPets(data))
-      .catch(error => console.error('Error fetching pets:', error));
+      .catch(setPets([]));
   }, []);
   
   return (
     <ul>
-        {pets.map(pet => (
+      {!pets ? (
+        <p>No Pets found or not logged in</p>
+      ) : (
+        pets.map(pet => (
           <li key={pet._id}>
             <Link to={`/pets/${pet._id}`}>
               <img src={"http://localhost:5000/images/"+pet.image} alt={pet.name} style={{ width: '100px', height: '100px' }} />
@@ -23,9 +26,10 @@ function PetList() {
               </div>
             </Link>
           </li>
-        ))}
-      </ul>
+        ))
+      )}
+    </ul>
   );
-}
+}  
 
 export default PetList;

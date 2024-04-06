@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function Navigation({ isLoggedIn, onLogout }) {
@@ -14,6 +14,11 @@ function Navigation({ isLoggedIn, onLogout }) {
         <li>
           <Link to="/addpet">Add Pet</Link>
         </li>
+        {isLoggedIn && (
+          <li>
+            <Link to="/my-pets">My Pets</Link>
+          </li>
+        )}
         <li>
           {isLoggedIn ? (
             <button onClick={onLogout}>Logout</button>
