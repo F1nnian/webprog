@@ -11,7 +11,6 @@ import {
     MenuItem,
     Grid
 } from '@mui/material';
-import { PhotoCamera } from '@mui/icons-material';
 
 function EditPet() {
     const { id } = useParams();

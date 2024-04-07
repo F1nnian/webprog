@@ -1,3 +1,21 @@
+# How to run this App
+## Voraussetzungen
+1. [Node.js](https://nodejs.org/en/download)
+2. [MongoDB](https://www.mongodb.com/try/download/shell)
+   - run MongoDB Compass
+   - connect to localhost:27017
+   - create a database "webprog"
+
+## Repository klonen
+`git clone https://github.com/F1nnian/webprog`
+
+## Frontend-Abhängigkeiten
+In App-Ordner: `npm install`
+
+## Backend-Abhängigkeiten
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

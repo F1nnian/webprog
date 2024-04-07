@@ -31,7 +31,6 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 async function tryRegistering(userData) {
-    console.log(userData)
     try {
       const response = await fetch('http://localhost:5000/api/register', {
         method: 'POST',

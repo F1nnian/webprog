@@ -5,7 +5,9 @@ const jwt = require('jsonwebtoken');
 function generateToken(user) {
   const payload = {
     userId: user._id,
-    username: user.email,
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName
   };
   return jwt.sign(payload, 'testtest123', { expiresIn: '1h' });
 }
@@ -22,7 +24,6 @@ async function register(req, res) {
     newUser.passwordHash = await bcrypt.hash(req.body.password, 10);
     await newUser.save();
     const token = generateToken(newUser);
-    console.log("test")
     res.status(201).json({ token });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -31,7 +32,6 @@ async function register(req, res) {
   
 async function login(req, res){
   const { email, password } = req.body;
-  console.log(email, password)
   try {
     const user = await User.findOne({ email });
     if (!user) {

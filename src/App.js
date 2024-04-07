@@ -1,5 +1,4 @@
 import './App.css';
-import Navigation from './components/Navigation';
 import NavBar from './components/NavBar';
 import MainRoutes from './components/MainRoutes';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -26,6 +25,7 @@ function isTokenExpired(decoded) {
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [firstName, setFirstName] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -37,6 +37,7 @@ function App() {
         setIsLoggedIn(false);
       } else {
         setIsLoggedIn(true);
+        setFirstName(decodedToken.firstName);
       }
     }
   }, []);
@@ -52,7 +53,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <NavBar isLoggedIn={isLoggedIn} onLogout={ handleLogout } position="sticky"/>
+        <NavBar isLoggedIn={isLoggedIn} onLogout={ handleLogout } firstName={ firstName } position="sticky"/>
         <main>
           <MainRoutes onRegister={ handleLogin } onLogin={ handleLogin } isLoggedIn={ isLoggedIn }/>
         </main>

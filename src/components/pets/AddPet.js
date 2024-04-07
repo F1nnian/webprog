@@ -67,7 +67,6 @@ function AddPetForm({ onAdd, isLoggedIn }) {
           <Typography component="h1" variant="h5">
             Add a New Pet
           </Typography>
-          {isLoggedIn ? (
             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -143,13 +142,38 @@ function AddPetForm({ onAdd, isLoggedIn }) {
                 Add Pet
               </Button>
             </Box>
-          ) : (
-            <p>Please <Link to="/login">log in</Link> to add a pet</p>
-          )}
         </Box>
       </Container>
     </ThemeProvider>
   );
 }
 
-export default AddPetForm;
+function AddPet({ isLoggedIn }) {
+  const handleAddPet = async (formData) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:5000/api/pets', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+        body: formData,
+      });
+      if (response.ok) {
+        console.log('Pet added successfully!');
+      } else {
+        console.error('Failed to add pet:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error adding pet:', error.message);
+    }
+  };
+
+  return (
+    <div>
+      {(isLoggedIn) ? <AddPetForm onAdd={handleAddPet} /> : (<p>Please <Link to="/login">log in</Link> to add a pet</p>)}
+    </div>
+  );
+}
+
+export default AddPet;

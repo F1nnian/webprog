@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function AddPetForm({ onAdd }) {
+  console.log(onAdd)
   const [name, setName] = useState('');
   const [species, setSpecies] = useState('');
   const [gender, setGender] = useState('');

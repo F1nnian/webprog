@@ -1,22 +1,20 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './Home';
-import PetList from './PetList';
-import AddPet from './AddPet';
-import AddPetNew from './AddPetNew';
-import SinglePet from './SinglePet';
-import EditPet from './EditPet';
-import SignIn from './SignIn';
-import MyPets from './MyPets';
-import SignUp from './SignUp';
-import NewestPetList from './NewestPets';
+import PetList from './petlists/PetList';
+import AddPet from './pets/AddPet';
+import SinglePet from './pets/SinglePet';
+import EditPet from './pets/EditPet';
+import SignIn from './user/SignIn';
+import MyPets from './petlists/MyPets';
+import SignUp from './user/SignUp';
 
 function MainRoutes({ onRegister, onLogin, isLoggedIn }) {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/pets" element={<PetList />} />
-      <Route path="/add-pet" element={<AddPetNew isLoggedIn={ isLoggedIn }/>} />
+      <Route path="/add-pet" element={<AddPet isLoggedIn={ isLoggedIn }/>} />
       <Route path="/pets/:id" element={<SinglePet />} />
       <Route path="/pets/:id/edit" element={<EditPet />} />
       <Route path="/login" element={<SignIn onLogin={ onLogin }/>} />

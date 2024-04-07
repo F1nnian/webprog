@@ -20,7 +20,6 @@ async function getAllPets(req, res) {
 async function getMyPets(req, res) {
   try {
     const token = req.headers.authorization.split(' ')[1];
-    console.log("test");
     const decodedToken = jwt.verify(token, 'testtest123');
     const userId = decodedToken.userId;
 
@@ -72,7 +71,6 @@ async function createPet(req, res) {
       }
       
       const image = req.file.filename;
-      console.log(req.body)
       const { name, species, gender, age } = req.body;
 
             const newPet = new Pet({
@@ -103,12 +101,10 @@ async function editPet(req, res) {
     const decodedToken = jwt.verify(token, 'testtest123');
     const userId = decodedToken.userId;
 
-    console.log(pet.createdBy.toString());
 
     if (pet.createdBy.toString() !== userId) {
       return res.status(403).json({ message: 'Access forbidden' });
     }
-    console.log(pet);
     res.json(pet);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -116,9 +112,7 @@ async function editPet(req, res) {
 }
 
 async function updatePet(req, res) {
-  console.log("test");
   try {
-    console.log(req.body);
     const pet = await Pet.findById(req.params.id);
     if (!pet) {
       return res.status(404).json({ message: 'Pet not found' });
