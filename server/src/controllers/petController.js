@@ -2,6 +2,8 @@ const multer = require('multer');
 const Pet = require('../models/petModel');
 const jwt = require('jsonwebtoken');
 
+
+// Get all pets or filter by query
 async function getAllPets(req, res) {
   try {
     const sortBy = req.query.sortBy || 'createdAt';
@@ -17,6 +19,7 @@ async function getAllPets(req, res) {
   }
 }
 
+// Get all pets created by the logged in user
 async function getMyPets(req, res) {
   try {
     const token = req.headers.authorization.split(' ')[1];
@@ -30,6 +33,7 @@ async function getMyPets(req, res) {
   }
 }
 
+// Get a pet by id
 async function getPetById(req, res) {
   try {
     const pet = await Pet.findById(req.params.id).populate('createdBy', 'firstName lastName email');
@@ -42,7 +46,7 @@ async function getPetById(req, res) {
   }
 }
 
-
+// Multer configuration to store images
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'server/resource/images/');
@@ -57,6 +61,7 @@ const upload = multer({ storage: storage });
 
 const uploadSingle = upload.single('image');
 
+// Create a new pet
 async function createPet(req, res) {
   try {
     const token = req.headers.authorization.split(' ')[1];
@@ -91,6 +96,7 @@ async function createPet(req, res) {
     }
 }
 
+// Send data of a pet to edit only if the pet was created by the logged in user
 async function editPet(req, res) {
   try {
     const pet = await Pet.findById(req.params.id);
@@ -111,6 +117,7 @@ async function editPet(req, res) {
   }
 }
 
+// Update a pet
 async function updatePet(req, res) {
   try {
     const pet = await Pet.findById(req.params.id);
@@ -148,6 +155,7 @@ async function updatePet(req, res) {
   }
 }
 
+// Delete a pet
 async function deletePet(req, res) {
   try {
     const pet = await Pet.findById(req.params.id);

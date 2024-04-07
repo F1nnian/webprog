@@ -2,6 +2,7 @@ const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+// Generate a token for the user authentication
 function generateToken(user) {
   const payload = {
     userId: user._id,
@@ -12,7 +13,7 @@ function generateToken(user) {
   return jwt.sign(payload, 'testtest123', { expiresIn: '1h' });
 }
 
-
+// Register a new user
 async function register(req, res) {
   try {
     const existingUser = await User.findOne({ email: req.body.email });
@@ -30,6 +31,7 @@ async function register(req, res) {
   }
 }
   
+// Login a user
 async function login(req, res){
   const { email, password } = req.body;
   try {

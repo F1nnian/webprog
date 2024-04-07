@@ -8,10 +8,13 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 
+
+// This component displays a list of all pets.
 function PetList() {
   const [pets, setPets] = useState([]);
   const navigate = useNavigate();
 
+  // fetch the pets from the server
   useEffect(() => {
     fetch('http://localhost:5000/api/pets')
       .then(response => response.json())
@@ -19,6 +22,7 @@ function PetList() {
       .catch(() => setPets([]));
   }, []);
 
+  // display the list of pets
   return (
     <div style={{ display: 'flex', alignItems: 'center', height: '100%', flexDirection: 'column' }}>
       <h1>Pets</h1>

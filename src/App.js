@@ -5,7 +5,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 
-
 function decodeToken(token) {
   return jwtDecode(token);
 }
@@ -27,6 +26,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [firstName, setFirstName] = useState('');
 
+  // Check if user is logged in
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -53,8 +53,10 @@ function App() {
   return (
     <Router>
       <div className="App">
+        {/* Add NavBar and pass functions and parameters */}
         <NavBar isLoggedIn={isLoggedIn} onLogout={ handleLogout } firstName={ firstName } position="sticky"/>
         <main>
+          {/* Add MainRoutes and pass functions and parameters */}
           <MainRoutes onRegister={ handleLogin } onLogin={ handleLogin } isLoggedIn={ isLoggedIn }/>
         </main>
       </div>

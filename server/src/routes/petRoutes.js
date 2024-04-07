@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const petController = require('../controllers/petController');
 
+// Define the routes for the Pet API
+
 router.get('/pets', petController.getAllPets);
 
 router.get('/my-pets', petController.getMyPets);

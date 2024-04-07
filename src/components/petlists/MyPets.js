@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { List, ListItem, ListItemText, ListItemAvatar, Avatar, Typography, Divider } from '@mui/material';
 
+
+// This component displays a list of pets that belong to the currently logged in user.
 function PetList() {
   const [pets, setPets] = useState([]);
   const navigate = useNavigate();
 
+  // fetch the pets from the server
   useEffect(() => {
     fetch('http://localhost:5000/api/my-pets', {
       headers: {
@@ -23,6 +26,7 @@ function PetList() {
       .catch(error => console.error('Error fetching pets:', error));
   }, []);
 
+  // display the list of pets
   return (
     <div style={{ display: 'flex', alignItems: 'center', height: '100vh', flexDirection: 'column' }}>
       <h1>My Pets</h1>

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Define the pet schema
 const petSchema = new mongoose.Schema({
   name: {
     type: String,

@@ -9,10 +9,12 @@ import Typography from '@mui/material/Typography';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// This component displays a list of the 10 newest pets.
 function NewestPetList() {
     const navigate = useNavigate();
     const [newestPets, setNewestPets] = useState([]);
 
+    // fetch the 10 newest pets from the server
     useEffect(() => {
         fetch('http://localhost:5000/api/pets?sortBy=createdAt&limit=10')
         .then(response => response.json())
@@ -23,7 +25,8 @@ function NewestPetList() {
     const handleItemClick = (petId) => {
         navigate(`/pets/${petId}`);
       };
-
+    
+    // display the list of pets
     return (
         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
           {newestPets.map((pet) => (
