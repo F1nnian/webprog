@@ -1,5 +1,6 @@
 import './App.css';
 import Navigation from './components/Navigation';
+import NavBar from './components/NavBar';
 import MainRoutes from './components/MainRoutes';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -51,9 +52,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <header className="App-header">
-          <Navigation isLoggedIn={isLoggedIn} onLogout={ handleLogout } />
-        </header>
+        <NavBar isLoggedIn={isLoggedIn} onLogout={ handleLogout } position="sticky"/>
         <main>
           <MainRoutes onRegister={ handleLogin } onLogin={ handleLogin } isLoggedIn={ isLoggedIn }/>
         </main>

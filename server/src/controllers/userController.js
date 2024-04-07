@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 function generateToken(user) {
   const payload = {
     userId: user._id,
-    username: user.username,
+    username: user.email,
   };
   return jwt.sign(payload, 'testtest123', { expiresIn: '1h' });
 }
@@ -13,9 +13,9 @@ function generateToken(user) {
 
 async function register(req, res) {
   try {
-    const existingUser = await User.findOne({ username: req.body.username });
+    const existingUser = await User.findOne({ email: req.body.email });
     if (existingUser) {
-      return res.status(400).json({ message: 'Username already exists' });
+      return res.status(400).json({ message: 'User already exists'});
     }
 
     const newUser = new User(req.body);
@@ -30,15 +30,16 @@ async function register(req, res) {
 }
   
 async function login(req, res){
-  const { username, password } = req.body;
+  const { email, password } = req.body;
+  console.log(email, password)
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ message: 'Invalid username or password' });
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
     const passwordMatch = await bcrypt.compare(password, user.passwordHash);
     if (!passwordMatch) {
-      return res.status(401).json({ message: 'Invalid username or password' });
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
     const token = generateToken(user);
     res.status(200).json({ token });

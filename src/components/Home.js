@@ -1,40 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-
-function NewestPetList() {
-  const [newestPets, setNewestPets] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:5000/api/pets?sortBy=createdAt&limit=10')
-      .then(response => response.json())
-      .then(data => setNewestPets(data))
-      .catch(error => console.error('Error fetching newest pets:', error));
-  }, []);
-
-  return (
-    <div>
-      <h2>Newest Pets</h2>
-      <ul>
-        {newestPets.map(pet => (
-          <li key={pet._id}>
-            <Link to={`/pets/${pet._id}`}>
-              <img src={"http://localhost:5000/images/"+pet.image} alt={pet.name} style={{ width: '100px', height: '100px' }} />
-              <div>
-                <h3>{pet.name}</h3>
-                <p>Age: {pet.age}</p>
-              </div>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+import NewestPetList from './NewestPets';
 
 function Home() {
   return (
-    <div>
-      <h1>Adopt a Pet</h1>
+    <div style={{ display: 'flex', alignItems: 'center', height: '100%', flexDirection: 'column' }}>
+      <h1>Newest Pets</h1>
       <NewestPetList />
     </div>
   );

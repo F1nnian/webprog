@@ -1,36 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import * as React from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function PetList() {
-  const [pets, setPets] = useState([]);
-  const navigate = useNavigate();
+function NewestPetList() {
+    const navigate = useNavigate();
+    const [newestPets, setNewestPets] = useState([]);
 
-  useEffect(() => {
-    fetch('http://localhost:5000/api/pets')
-      .then(response => response.json())
-      .then(data => setPets(data))
-      .catch(() => setPets([]));
-  }, []);
+    useEffect(() => {
+        fetch('http://localhost:5000/api/pets?sortBy=createdAt&limit=10')
+        .then(response => response.json())
+        .then(data => setNewestPets(data))
+        .catch(error => console.error('Error fetching newest pets:', error));
+    }, []);
 
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', height: '100%', flexDirection: 'column' }}>
-      <h1>Pets</h1>
-      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-        {!pets || pets.length === 0 ? (
-          <Typography variant="body1" color="text.secondary">
-            No Pets found or not logged in
-          </Typography>
-        ) : (
-          pets.map(pet => (
+    const handleItemClick = (petId) => {
+        navigate(`/pets/${petId}`);
+      };
+
+    return (
+        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+          {newestPets.map((pet) => (
             <React.Fragment key={pet._id}>
-              <ListItem onClick={() => navigate(`/pets/${pet._id}`)} alignItems="flex-start" style={{ textDecoration: 'none', cursor: 'pointer' }}>
+              <ListItem
+                onClick={() => handleItemClick(pet._id)}
+                alignItems="flex-start"
+                style={{ cursor: 'pointer' }}
+              >
                 <ListItemAvatar>
                   <Avatar alt={pet.name} src={`http://localhost:5000/images/${pet.image}`} />
                 </ListItemAvatar>
@@ -48,7 +50,7 @@ function PetList() {
                         variant="body2"
                         color="text.primary"
                       >
-                        Age: {pet.age}
+                        Age: {pet.age}, Gender: {pet.gender}, Species: {pet.species}
                       </Typography>
                     </React.Fragment>
                   }
@@ -56,11 +58,9 @@ function PetList() {
               </ListItem>
               <Divider variant="inset" component="li" />
             </React.Fragment>
-          ))
-        )}
-      </List>
-    </div>
-  );
+          ))}
+        </List>
+      );
 }
 
-export default PetList;
+export default NewestPetList;

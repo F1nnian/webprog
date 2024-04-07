@@ -10,7 +10,7 @@ async function getAllPets(req, res) {
     const pets = await Pet.find()
       .sort({ [sortBy]: -1 })
       .limit(limit)
-      .select('name species age image');
+      .select('name species gender age image');
     res.json(pets);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -24,7 +24,7 @@ async function getMyPets(req, res) {
     const decodedToken = jwt.verify(token, 'testtest123');
     const userId = decodedToken.userId;
 
-    const pets = await Pet.find({ createdBy: userId }).select('name species age image');
+    const pets = await Pet.find({ createdBy: userId }).select('name species gender age image');
     res.json(pets);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -72,12 +72,14 @@ async function createPet(req, res) {
       }
       
       const image = req.file.filename;
-      const { name, species, age } = req.body;
+      console.log(req.body)
+      const { name, species, gender, age } = req.body;
 
             const newPet = new Pet({
                 name,
                 species,
                 age,
+                gender,
                 image,
                 createdBy: userId
             });

@@ -10,17 +10,22 @@ const petSchema = new mongoose.Schema({
     enum: ['dog', 'cat'],
     required: true
   },
-  breed: String,
   age: {
     type: Number,
-    required: true
+    required: true,
+    validate: {
+      validator: function(value) {
+        return value >= 0 && value <= 25;
+      },
+      message: props => `${props.value} is not a valid age for a cat or dog.`,
+    },
   },
   gender: {
     type: String,
     enum: ['male', 'female', 'unknown'],
-    default: 'unknown'
+    default: 'unknown',
+    required: true
   },
-  description: String,
   image: String,
   availableForAdoption: {
     type: Boolean,

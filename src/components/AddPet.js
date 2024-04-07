@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 function AddPetForm({ onAdd }) {
   const [name, setName] = useState('');
   const [species, setSpecies] = useState('');
+  const [gender, setGender] = useState('');
   const [age, setAge] = useState('');
   const [image, setImage] = useState(null);
 
@@ -16,12 +17,14 @@ function AddPetForm({ onAdd }) {
     const formData = new FormData();
     formData.append('name', name);
     formData.append('species', species);
+    formData.append('gender', gender)
     formData.append('age', parseInt(age));
     formData.append('image', image);
 
     onAdd(formData);
     setName('');
     setSpecies('');
+    setGender('');
     setAge('');
     setImage(null);
   };
@@ -35,7 +38,18 @@ function AddPetForm({ onAdd }) {
       </label>
       <label>
         Species:
-        <input type="text" value={species} onChange={(e) => setSpecies(e.target.value)} />
+        <select onChange={(e) => setSpecies(e.target.value)}>
+          <option value="dog">Dog</option>
+          <option value="cat">Cat</option>
+        </select>
+      </label>
+      <label>
+        Gender:
+        <select onChange={(e) => setGender(e.target.value)}>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="unknown">Unknown</option>
+        </select>
       </label>
       <label>
         Age:

@@ -44,7 +44,7 @@ function LoginForm({ onLogin }) {
         setPassword('');
         navigate(-1)
       } else {
-        setFailed('Failed to log in. Please try again.');
+        setFailed('Failed to log in. Please check username and password and try again.');
       }
     } catch (error) {
       console.error('Error logging in:', error);
