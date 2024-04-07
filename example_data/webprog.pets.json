@@ -1,0 +1,90 @@
+[{
+  "_id": {
+    "$oid": "6612deb3c21d014f0c6be067"
+  },
+  "name": "Test1",
+  "species": "dog",
+  "age": 3,
+  "gender": "male",
+  "image": "image-1712512691788-766934576",
+  "availableForAdoption": true,
+  "createdBy": {
+    "$oid": "6612dea5c21d014f0c6be063"
+  },
+  "createdAt": {
+    "$date": "2024-04-07T17:58:11.789Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6612dec0c21d014f0c6be069"
+  },
+  "name": "Test2",
+  "species": "cat",
+  "age": 1,
+  "gender": "female",
+  "image": "image-1712512704844-988515624",
+  "availableForAdoption": true,
+  "createdBy": {
+    "$oid": "6612dea5c21d014f0c6be063"
+  },
+  "createdAt": {
+    "$date": "2024-04-07T17:58:24.845Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6612decfc21d014f0c6be06b"
+  },
+  "name": "Test3",
+  "species": "dog",
+  "age": 5,
+  "gender": "unknown",
+  "image": "image-1712512719457-522934763",
+  "availableForAdoption": true,
+  "createdBy": {
+    "$oid": "6612dea5c21d014f0c6be063"
+  },
+  "createdAt": {
+    "$date": "2024-04-07T17:58:39.458Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6612dedec21d014f0c6be06d"
+  },
+  "name": "Test4",
+  "species": "cat",
+  "age": 1,
+  "gender": "male",
+  "image": "image-1712512734289-668347577",
+  "availableForAdoption": true,
+  "createdBy": {
+    "$oid": "6612dea5c21d014f0c6be063"
+  },
+  "createdAt": {
+    "$date": "2024-04-07T17:58:54.290Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6612deedc21d014f0c6be06f"
+  },
+  "name": "Test5",
+  "species": "cat",
+  "age": 4,
+  "gender": "male",
+  "image": "image-1712512749477-71366696",
+  "availableForAdoption": true,
+  "createdBy": {
+    "$oid": "6612dea5c21d014f0c6be063"
+  },
+  "createdAt": {
+    "$date": "2024-04-07T17:59:09.478Z"
+  },
+  "__v": 0
+}]
